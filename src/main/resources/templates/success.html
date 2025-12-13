@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org">
+
+<head>
+    <div th:replace="~{base :: head}"></div>
+    
+    <style>
+        /* Professional Booking Confirmation Styles */
+        .booking-success-wrapper {
+            background: linear-gradient(135deg, #f8f4ef 0%, #fdfbf7 100%);
+            min-height: 100vh;
+            padding: 60px 0;
+        }
+
+        .success-card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 50px 40px;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            border: 1px solid #f0e6dc;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .success-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #d4a574 0%, #c58940 100%);
+        }
+
+        .success-icon-wrapper {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #d4a574 0%, #c58940 100%);
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            box-shadow: 0 8px 25px rgba(212, 165, 116, 0.4);
+            animation: scaleIn 0.5s ease-out;
+            clip-path: polygon(100% 50%,88.8% 66.07%,85.36% 85.36%,66.07% 88.8%,50% 100%,33.93% 88.8%,14.64% 85.36%,11.2% 66.07%,0% 50%,11.2% 33.93%,14.64% 14.64%,33.93% 11.2%,50% 0%,66.07% 11.2%,85.36% 14.64%,88.8% 33.93%);
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .success-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .success-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2c1b12;
+            margin-bottom: 12px;
+            letter-spacing: -0.3px;
+        }
+
+        .success-subtitle {
+            font-size: 1.1rem;
+            color: #6b5544;
+            line-height: 1.6;
+            max-width: 450px;
+            margin: 0 auto;
+        }
+
+        .booking-info-card {
+            background: #fdfbf7;
+            border-radius: 16px;
+            padding: 30px;
+            margin: 35px 0;
+            border: 1px solid #efe5d8;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid #f5ede3;
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .info-item:first-child {
+            padding-top: 0;
+        }
+
+        .info-label {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #5c4033;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-label i {
+            color: #d4a574;
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        .info-value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2c1b12;
+            text-align: right;
+        }
+
+        .status-badge {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 6px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+            display: inline-block;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+
+		.btn-custom {
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: none;
+        }
+
+        .btn-primary-custom {
+            background: linear-gradient(135deg, #d4a574 0%, #c58940 100%);
+            color: white;
+        }
+
+        .btn-primary-custom:hover {
+            background: linear-gradient(135deg, #c58940 0%, #b07835 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 165, 116, 0.4);
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn-outline-custom {
+            background: white;
+            color: #5c4033;
+            border: 2px solid #d4a574;
+        }
+
+        .btn-outline-custom:hover {
+            background: #d4a574;
+            color: white;
+            border-color: #d4a574;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 165, 116, 0.3);
+            text-decoration: none;
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #e8d9c5, transparent);
+            margin: 30px 0;
+        }
+
+        .footer-note {
+            text-align: center;
+            font-size: 0.95rem;
+            color: #8b7355;
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid #f0e6dc;
+        }
+
+        .footer-note i {
+            color: #d4a574;
+            margin-right: 8px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .booking-success-wrapper {
+                padding: 40px 15px;
+            }
+
+            .success-card {
+                padding: 40px 25px;
+                border-radius: 16px;
+            }
+
+            .success-title {
+                font-size: 1.75rem;
+            }
+
+            .success-subtitle {
+                font-size: 1rem;
+            }
+
+            .booking-info-card {
+                padding: 25px 20px;
+            }
+
+            .info-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+                padding: 14px 0;
+            }
+
+            .info-value {
+                text-align: left;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn-custom {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            .action-buttons,
+            .navbar,
+            .footer {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar Start -->
+    <div th:replace="~{base :: navbar}"></div>
+    <!-- Navbar End -->
+
+    <!-- Page Header Start -->
+    <div th:replace="~{base :: header(text='Booking Confirmed')}"></div>
+    <!-- Page Header End -->
+
+    <!-- Success Page Start -->
+    <div class="booking-success-wrapper">
+        <div class="container">
+            <div class="success-card">
+                <!-- Success Icon -->
+                <div class="success-icon-wrapper">
+                    <div class="success-icon">
+                        <i class="fa fa-check"></i>
+                    </div>
+                </div>
+
+                <!-- Success Header -->
+                <div class="success-header">
+                    <h1 class="success-title">Booking Confirmed!</h1>
+                    <p class="success-subtitle">
+                        Thank you for your reservation! We look forward to serving you at KOPPEE.
+                    </p>
+                </div>
+
+<!-- Booking Information -->
+                <div class="booking-info-card" th:object="${booked}">
+                <div class="info-item">
+                        <span class="info-label">
+                            <i class="fa fa-id-card"></i>
+                            ID
+                        </span>
+                        <span class="info-value" th:text="*{id}"></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">
+                            <i class="fa fa-user"></i>
+                            Name
+                        </span>
+                        <span class="info-value" th:text="*{name}"></span>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="info-label">
+                            <i class="fa fa-phone"></i>
+                            Phone
+                        </span>
+                        <span class="info-value" th:text="*{phoneNumber}"></span>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="info-label">
+                            <i class="fa fa-envelope"></i>
+                            Email
+                        </span>
+                        <span class="info-value" th:text="*{email}"></span>
+                    </div>
+
+                    
+
+                    <div class="info-item">
+                        <span class="info-label">
+                            <i class="fa fa-calendar"></i>
+                            Date
+                        </span>
+                        <span class="info-value" th:text="*{date}">11/26/2025</span>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="info-label">
+                            <i class="fa fa-clock"></i>
+                            Time
+                        </span>
+                        <span class="info-value" th:text="*{time}">5:20 PM</span>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="info-label">
+                            <i class="fa fa-users"></i>
+                            Persons
+                        </span>
+                        <span class="info-value" th:text="*{person} + ' Person(s)'">5 Person(s)</span>
+                    </div>
+
+                    
+
+                    <div class="info-item">
+                        <span class="info-label">
+                            <i class="fa fa-check-circle"></i>
+                            Status
+                        </span>
+                        <span class="info-value">
+                            <span class="status-badge">Confirmed</span>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <a th:href="@{/home}" class="btn-custom btn-primary-custom">
+                        <i class="fa fa-home"></i>
+                        Back to Home
+                    </a>
+                    <a th:href="@{/menu}" class="btn-custom btn-outline-custom">
+                        <i class="fa fa-utensils"></i>
+                        View Menu
+                    </a>
+                </div>
+
+                <!-- Footer Note -->
+                <div class="footer-note">
+                    <i class="fa fa-info-circle"></i>
+                    A confirmation email has been sent to your inbox
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Success Page End -->
+
+    <!-- Footer Start -->
+    <div th:replace="~{base :: footer}"></div>
+    <!-- Footer End -->
+
+    <div th:replace="~{base :: script}"></div>
+</body>
+</html>

@@ -1,7 +1,7 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.5.7'
-	id 'io.spring.dependency-management' version '1.1.7'
+  id 'java'
+  id 'org.springframework.boot' version '3.5.7'
+  id 'io.spring.dependency-management' version '1.1.7'
 }
 
 group = 'com.setec'
@@ -9,41 +9,51 @@ version = '0.0.1-SNAPSHOT'
 description = 'Demo project for Spring Boot'
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(21)
-	}
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(21)
+  }
 }
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+  compileOnly {
+    extendsFrom annotationProcessor
+  }
 }
 
 repositories {
-	mavenCentral()
+  mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	runtimeOnly 'com.mysql:mysql-connector-j'
-	annotationProcessor 'org.projectlombok:lombok'
-	//providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-	implementation 'com.github.pengrad:java-telegram-bot-api:9.2.1'
-	
+  implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+  implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+  implementation 'org.springframework.boot:spring-boot-starter-web'
+  compileOnly 'org.projectlombok:lombok'
+  developmentOnly 'org.springframework.boot:spring-boot-devtools'
+  runtimeOnly 'com.mysql:mysql-connector-j'
+  annotationProcessor 'org.projectlombok:lombok'
+  //providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+  testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+  implementation 'com.github.pengrad:java-telegram-bot-api:9.2.1'
+  
+  
+  
 }
-<dependency>
-    <groupId>org.postgresql</groupId>
-    <artifactId>postgresql</artifactId>
-    <scope>runtime</scope>
-</dependency>
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    
+    // PostgreSQL Driver - THIS IS REQUIRED!
+    runtimeOnly 'org.postgresql:postgresql'
+    
+    // Telegram Bot (if you're using it)
+    implementation 'org.telegram:telegrambots:6.8.0'
+    
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
 
 tasks.named('test') {
-	useJUnitPlatform()
+  useJUnitPlatform()
 }
